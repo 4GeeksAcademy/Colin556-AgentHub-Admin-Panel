@@ -125,12 +125,32 @@ Define in :root and .theme-dark.
    1. Mobile: 1 column
    2. Tablet: 2 columns
    3. Desktop: 4 columns
-2. Tables:
-   1. Horizontal overflow allowed on small screens
-   2. Keep action buttons always visible
-3. Modals:
+2. Mobile condensed presentation is mandatory for the following sections:
+   1. Dashboard
+   2. Weekly Activity panel
+   3. User Management
+   4. Agent Management
+   5. Skills Catalog
+   6. Agent Contracts
+   7. Error Log
+3. Table-heavy sections must provide a compact mobile-card view:
+   1. User Management
+   2. Agent Contracts
+   3. Error Log
+4. Desktop tables may remain for tablet/desktop views, but on mobile (< 768px):
+   1. Desktop tables should be hidden
+   2. Compact cards should be shown
+   3. Action dropdowns and status badges must remain available in cards
+5. If table mode is retained on mobile in any fallback state:
+   1. Horizontal overflow is allowed
+   2. Action buttons must remain visible
+6. Modals:
    1. Max width on desktop
    2. Full-width with margins on mobile
+7. Mobile card density targets:
+   1. Reduced padding compared to desktop panels
+   2. Smaller, readable typography scale
+   3. No horizontal overflow at 320px width
 
 ## 7. Shared Component Specifications
 
@@ -223,6 +243,15 @@ Values can be fictional but realistic and internally consistent.
 3. X-axis labels for days Mon to Sun
 4. No runtime chart library required
 
+#### Mobile Condensed Rules
+
+1. KPI cards must keep one-card-per-row layout and reduce internal spacing on small screens.
+2. KPI label/value typography must scale down while remaining clearly legible.
+3. Weekly Activity panel must reduce visual density on mobile:
+   1. Smaller chart height
+   2. Tighter panel padding
+   3. Labels remain readable without overlap
+
 ### 9.2 User Management
 
 #### Must Render
@@ -248,6 +277,17 @@ On View detail:
 
 Delete action can be non-destructive demo behavior (for example, close menu and show toast placeholder).
 
+#### Mobile Condensed Rules
+
+1. Provide a dedicated mobile card layout for users.
+2. Each mobile user card must include:
+   1. Name
+   2. Email
+   3. Plan
+   4. Status badge
+   5. Action dropdown with View detail and Delete
+3. Desktop table should be hidden on mobile viewports.
+
 ### 9.3 Agent Management
 
 #### Must Render
@@ -271,6 +311,17 @@ On Configure:
 2. Include visible label for textarea.
 3. Include Cancel and Save buttons (Save can be demo-only behavior).
 
+#### Mobile Condensed Rules
+
+1. Agent rows/items must collapse into compact cards with reduced spacing on mobile.
+2. Agent cards must preserve:
+   1. Name
+   2. Owner
+   3. Status badge
+   4. Expand/collapse skills control
+   5. Configure/Delete dropdown actions
+3. Expanded skills chips must wrap and stay within viewport width.
+
 ### 9.4 Skills Catalog
 
 #### Must Render
@@ -284,6 +335,16 @@ On Configure:
 4. Per skill row/item include action dropdown (⋮) with:
    1. View detail
    2. Delete
+
+#### Mobile Condensed Rules
+
+1. Skill entries must render as compact cards/items on mobile.
+2. Each mobile skill card must keep:
+   1. Skill name
+   2. Description
+   3. Enabled-agents count
+   4. Action dropdown
+3. Description text must wrap naturally without clipping.
 
 ### 9.5 Agent Contracts
 
@@ -309,6 +370,18 @@ On View detail:
    3. Itemized skill pricing table/list
    4. Subtotal, tax/fees (optional), final total
 
+#### Mobile Condensed Rules
+
+1. Provide a dedicated mobile card layout for contracts.
+2. Each mobile contract card must include:
+   1. Client
+   2. Rented agent
+   3. Contracted skills summary
+   4. Date window
+   5. Total paid
+   6. Action dropdown with View detail
+3. Desktop table should be hidden on mobile viewports.
+
 ### 9.6 Error Log
 
 #### Must Render
@@ -333,6 +406,17 @@ On View detail:
 
 Mark as resolved can be demo behavior (status update in-memory optional).
 
+#### Mobile Condensed Rules
+
+1. Provide a dedicated mobile card layout for error entries.
+2. Each mobile error card must include:
+   1. Agent
+   2. Timestamp
+   3. Error type/severity badge
+   4. Short description
+   5. Action dropdown with View detail and Mark as resolved
+3. Badge color semantics must remain clear in compact mode.
+
 ## 10. Interaction Model
 
 ### Global Interaction Rules
@@ -341,6 +425,7 @@ Mark as resolved can be demo behavior (status update in-memory optional).
    1. Toggle on trigger click
    2. Close when another dropdown opens
    3. Close on outside click or Escape
+   4. Render in a layer that avoids clipping inside overflow/scroll containers
 2. Modals:
    1. Single active modal at a time
    2. Opening modal sets focus to modal container/title
@@ -438,6 +523,12 @@ Prototype is accepted only if all statements below are true:
 18. Error detail modal shows trace details.
 19. Light and dark modes are both readable and visually consistent.
 20. Prototype works on mobile and desktop without layout breakage.
+21. At mobile width (< 768px), Users, Contracts, and Errors render compact card views instead of desktop tables.
+22. Dashboard KPI cards and Weekly Activity panel visibly condense for mobile (reduced spacing and scaled typography/chart area).
+23. Agent and Skills sections remain readable as compact cards/items on mobile without horizontal overflow.
+24. Mobile card views preserve required actions and status badges.
+25. Dropdown menus remain usable in mobile and inside scrollable containers (not clipped).
+26. Layout remains readable and functional at approximately 320px, 375px, and 768px widths.
 
 ## 16. Quality Review Steps
 
@@ -447,6 +538,7 @@ Prototype is accepted only if all statements below are true:
 4. Test keyboard only navigation for core interactive elements.
 5. Test at approximate widths 375px, 768px, 1280px.
 6. Run a final visual pass in both themes for contrast and spacing.
+7. Add explicit mobile condensed checks at 320px and 375px for all six major sections.
 
 ## 17. Notes for Future Backend Handoff
 

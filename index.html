@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentHub Admin Panel Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <span class="brand-mark">AH</span>
+        <div>
+          <h1>AgentHub</h1>
+          <p>Admin Console</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#users">Users</a>
+        <a href="#agents">Agents</a>
+        <a href="#skills">Skills</a>
+        <a href="#contracts">Contracts</a>
+        <a href="#errors">Errors</a>
+      </nav>
+    </aside>
+
+    <div class="main-layout">
+      <header class="topbar">
+        <div>
+          <h2>Operations Panel</h2>
+          <p>Monitor agents, users, contracts, and incidents.</p>
+        </div>
+        <div class="topbar-actions">
+          <button id="theme-toggle" class="btn ghost" type="button" aria-label="Toggle light and dark theme">Dark mode</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="dashboard" class="panel">
+          <div class="section-head">
+            <h3>Dashboard</h3>
+            <p>Weekly pulse of system revenue and agent health.</p>
+          </div>
+
+          <div class="kpi-grid" id="kpi-grid"></div>
+
+          <div class="chart-panel">
+            <div class="chart-head">
+              <h4>Weekly Activity</h4>
+              <span class="chip">Placeholder</span>
+            </div>
+            <div class="chart-placeholder" aria-label="Weekly activity placeholder chart">
+              <div class="grid-lines"></div>
+              <svg viewBox="0 0 700 200" role="img" aria-label="Activity trend line">
+                <polyline points="20,150 120,130 220,145 320,90 420,105 520,70 640,82" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              </svg>
+              <div class="axis-labels">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="users" class="panel">
+          <div class="section-head">
+            <h3>User Management</h3>
+            <p>Manage account plans and account health.</p>
+          </div>
+          <div class="table-wrap desktop-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Plan</th>
+                  <th>Status</th>
+                  <th class="actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-body"></tbody>
+            </table>
+          </div>
+          <div id="users-mobile" class="mobile-card-list" aria-label="User cards"></div>
+        </section>
+
+        <section id="agents" class="panel">
+          <div class="section-head">
+            <h3>Agent Management</h3>
+            <p>Configure autonomous agents and observe runtime status.</p>
+          </div>
+          <div id="agents-list" class="agent-list"></div>
+        </section>
+
+        <section id="skills" class="panel">
+          <div class="section-head">
+            <h3>Skills Catalog</h3>
+            <p>In AgentHub, a skill is a reusable capability package (prompt logic + tooling contract) that can be attached to one or more agents.</p>
+          </div>
+          <div id="skills-list" class="skills-list"></div>
+        </section>
+
+        <section id="contracts" class="panel">
+          <div class="section-head">
+            <h3>Agent Contracts</h3>
+            <p>Track client rentals, duration windows, and revenue contribution.</p>
+          </div>
+          <div class="table-wrap desktop-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Rented Agent</th>
+                  <th>Contracted Skills</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Total Paid</th>
+                  <th class="actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="contracts-body"></tbody>
+            </table>
+          </div>
+          <div id="contracts-mobile" class="mobile-card-list" aria-label="Contract cards"></div>
+        </section>
+
+        <section id="errors" class="panel">
+          <div class="section-head">
+            <h3>Error Log</h3>
+            <p>Review failures and resolve incidents quickly.</p>
+          </div>
+          <div class="table-wrap desktop-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Agent</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th class="actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="errors-body"></tbody>
+            </table>
+          </div>
+          <div id="errors-mobile" class="mobile-card-list" aria-label="Error cards"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="modal-backdrop" class="modal-backdrop" hidden></div>
+  <section id="app-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden tabindex="-1">
+    <header class="modal-header">
+      <h4 id="modal-title">Detail</h4>
+      <button id="modal-close" class="icon-btn" type="button" aria-label="Close modal">&times;</button>
+    </header>
+    <div id="modal-content" class="modal-body"></div>
+  </section>
+
+  <template id="menu-template">
+    <div class="menu" role="menu">
+      <button type="button" role="menuitem"></button>
+      <button type="button" role="menuitem"></button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
